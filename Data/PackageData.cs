@@ -360,8 +360,16 @@ namespace FuGetGallery
             public static string GetPackageDownloadUrl (string id, PackageVersion version)
             {
                 string defaultTemplate = "https://www.nuget.org/api/v2/package/{0}/{1}";
-                //string customTemplate = "https://bagetonwindows.azurewebsites.net/v3/package/{0}/{1}/{2}.nupkg";
                 string customTemplate = string.Empty;
+                string BaGetHostUrl = Environment.GetEnvironmentVariable ("BaGetHost");
+                if (string.IsNullOrEmpty (BaGetHostUrl) == false) 
+                {
+                    if (BaGetHostUrl.EndsWith ('/') == false) 
+                    {
+                        BaGetHostUrl += '/';
+                    }
+                    customTemplate = BaGetHostUrl + "v3/package/{0}/{1}/{2}.nupkg";
+                }
 
                 string usedTemplate = defaultTemplate;
 

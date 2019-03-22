@@ -63,9 +63,17 @@ namespace FuGetGallery
             public static string GetRegistrationUrl(string lowerId)
             {
                 string defaultTemplate = "https://api.nuget.org/v3/registration3/{0}/index.json";
-                //string customTemplate = "https://bagetonwindows.azurewebsites.net/v3/registration/{0}/index.json";
                 string customTemplate = string.Empty;
                 string usedTemplate = defaultTemplate;
+                string BaGetHostUrl = Environment.GetEnvironmentVariable ("BaGetHost");
+                if (string.IsNullOrEmpty (BaGetHostUrl) == false) 
+                {
+
+                    if (BaGetHostUrl.EndsWith ('/') == false) {
+                        BaGetHostUrl += '/';
+                    }
+                    customTemplate = BaGetHostUrl + "v3/registration/{0}/index.json";
+                }
 
                 if (string.IsNullOrEmpty (customTemplate) == false) 
                 {
