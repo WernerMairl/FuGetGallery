@@ -10,6 +10,7 @@ using Mono.Cecil;
 using System.Threading;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using NuGet.Versioning;
 
 namespace FuGetGallery
 {
@@ -356,17 +357,41 @@ namespace FuGetGallery
 
             }
 
+            public static string GetPackageDownloadUrl (string id, PackageVersion version)
+            {
+                string defaultTemplate = "https://www.nuget.org/api/v2/package/{0}/{1}";
+                //string customTemplate = "https://bagetonwindows.azurewebsites.net/v3/package/{0}/{1}/{2}.nupkg";
+                string customTemplate = string.Empty;
+
+                string usedTemplate = defaultTemplate;
+
+                if (string.IsNullOrEmpty (customTemplate) == false) 
+                {
+                    usedTemplate = customTemplate;
+                }
+
+                var nugetVersion = new NuGetVersion (version.VersionString);
+                var idVersion = $"{id}.{nugetVersion.ToNormalizedString().ToLowerInvariant ()}";
+
+                string id_escaped = Uri.EscapeDataString (id.ToLowerInvariant());
+                string versionString_escaped = Uri.EscapeDataString (version.VersionString);
+                string idversion_escaped = Uri.EscapeDataString (idVersion);
+
+                string finalUrl = string.Format (usedTemplate, id_escaped, versionString_escaped, idversion_escaped);
+                return finalUrl;
+            }
+
+
             protected override async Task<PackageData> GetValueAsync(string arg0, PackageVersion arg1, HttpClient httpClient, CancellationToken token)
             {
                 var id = arg0;
                 var version = arg1;
-
                 var package = new PackageData {
                     Id = id,
                     IndexId = id,
                     Version = version,
                     SizeInBytes = 0,
-                    DownloadUrl = $"https://www.nuget.org/api/v2/package/{Uri.EscapeDataString(id)}/{Uri.EscapeDataString(version.VersionString)}",
+                    DownloadUrl = GetPackageDownloadUrl (id, arg1)
                 };
                 try {
                     //System.Console.WriteLine($"DOWNLOADING {package.DownloadUrl}");
