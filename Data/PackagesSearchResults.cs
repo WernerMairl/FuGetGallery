@@ -54,7 +54,28 @@ namespace FuGetGallery
         class ResultsCache : DataCache<string, PackagesSearchResults>
         {
             public ResultsCache () : base (TimeSpan.FromMinutes (15)) { }
-            
+
+            public static string GetQueryUrl (string filterString)
+            {
+                string defaultTemplate = "https://api-v2v3search-0.nuget.org/query?prerelease=true&q={0}";
+                string customTemplate = string.Empty;
+                string BaGetHostUrl = Environment.GetEnvironmentVariable ("BaGetHost");
+                if (string.IsNullOrEmpty (BaGetHostUrl) == false) {
+                    if (BaGetHostUrl.EndsWith ('/') == false) {
+                        BaGetHostUrl += '/';
+                    }
+                    customTemplate = BaGetHostUrl + "v3/search?prerelease=true&q={0}";
+                }
+
+                string usedTemplate = defaultTemplate;
+                if (string.IsNullOrEmpty (customTemplate) == false) 
+                {
+                    usedTemplate = customTemplate;
+                }
+
+                return string.Format (usedTemplate, Uri.EscapeDataString (filterString));
+            }
+
             protected override async Task<PackagesSearchResults> GetValueAsync (string q, HttpClient httpClient, CancellationToken token)
             {
                 var results = new PackagesSearchResults {
@@ -62,7 +83,7 @@ namespace FuGetGallery
                 };
                 try {
                     // System.Console.WriteLine($"DOWNLOADING {package.DownloadUrl}");
-                    var queryUrl = "https://api-v2v3search-0.nuget.org/query?prerelease=true&q=" + Uri.EscapeDataString (q);
+                    var queryUrl = GetQueryUrl (q);
                     var data = await httpClient.GetStringAsync (queryUrl).ConfigureAwait (false);
                     results.Read (data);
                 }

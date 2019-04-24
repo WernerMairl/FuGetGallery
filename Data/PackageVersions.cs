@@ -59,14 +59,36 @@ namespace FuGetGallery
         class PackageVersionsCache : DataCache<string, PackageVersions>
         {
             public PackageVersionsCache () : base (TimeSpan.FromMinutes (20)) { }
-            
+
+            public static string GetRegistrationUrl(string lowerId)
+            {
+                string defaultTemplate = "https://api.nuget.org/v3/registration3/{0}/index.json";
+                string customTemplate = string.Empty;
+                string usedTemplate = defaultTemplate;
+                string BaGetHostUrl = Environment.GetEnvironmentVariable ("BaGetHost");
+                if (string.IsNullOrEmpty (BaGetHostUrl) == false) 
+                {
+
+                    if (BaGetHostUrl.EndsWith ('/') == false) {
+                        BaGetHostUrl += '/';
+                    }
+                    customTemplate = BaGetHostUrl + "v3/registration/{0}/index.json";
+                }
+
+                if (string.IsNullOrEmpty (customTemplate) == false) 
+                {
+                    usedTemplate = customTemplate;
+                }
+
+                return string.Format (usedTemplate, Uri.EscapeDataString (lowerId));
+            }
             protected override async Task<PackageVersions> GetValueAsync(string lowerId, HttpClient httpClient, CancellationToken token)
             {
                 var package = new PackageVersions {
                     LowerId = lowerId,
                 };
                 try {
-                    var url = "https://api.nuget.org/v3/registration3/" + Uri.EscapeDataString(lowerId) + "/index.json";
+                    var url = GetRegistrationUrl (lowerId);
                     var rootJson = await httpClient.GetStringAsync (url).ConfigureAwait (false);
                     // System.Console.WriteLine(rootJson + "\n\n\n\n");
                     var root = JObject.Parse(rootJson);
