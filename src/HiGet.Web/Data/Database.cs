@@ -9,7 +9,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using SQLite;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class Database : SQLiteAsyncConnection
     {

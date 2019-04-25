@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "FuGetGallery": {
+    "Kestrell": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

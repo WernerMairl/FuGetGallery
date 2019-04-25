@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class Startup
     {
