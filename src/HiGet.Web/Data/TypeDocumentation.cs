@@ -368,92 +368,93 @@ namespace HiGet.Web
 
             string GetClassAndLink(AstNode n, out string link, out string id)
             {
-                link = null;
-                id = null;
-                if (n == null || n == AstNode.Null)
-                    return "c-uk";
-                while (n != null && n.Annotations.Count() == 0)
-                    n = n.Parent;
-                if (n == null || n == AstNode.Null)
-                    return "c-uk";
-                var t = n.Annotation<TypeResolveResult> ();
-                if (t != null) {
-                    if (n.NodeType == NodeType.TypeDeclaration) {
-                        return "c-td";
-                    }
-                    var name = t.Type.FullName;
-                    if (t.Type.TypeParameterCount > 0 && name.IndexOf('`') < 0)
-                        name += "`" + t.Type.TypeParameterCount;
-                    if (t.Type.Kind != TypeKind.TypeParameter) {
-                        link = framework.FindTypeUrl (name);
-                    }
-                    return "c-tr";
-                }
-                var u = n.Annotation<UsingScope> ();
-                if (u != null)
-                    return "c-nr";
-                var m = n.Annotation<MemberResolveResult> ();
-                if (m != null) {
-                    if (m.Member.SymbolKind == SymbolKind.Method) {
-                        if (n is MethodDeclaration md) {
-                            if (md.GetSymbol () is DefaultResolvedMethod r)
-                                id = r.GetIdString ();
-                            return "c-md";
-                        }
-                        return "c-mr";
-                    }
-                    if (m.Member.SymbolKind == SymbolKind.Field) {
-                        if (n is FieldDeclaration fd) {
-                            if (fd.GetSymbol () is DefaultResolvedField r)
-                                id = r.GetIdString ();
-                            return "c-fd";
-                        }
-                        return "c-fr";
-                    }
-                    if (m.Member.SymbolKind == SymbolKind.Event) {
-                        if (n is EventDeclaration ed) {
-                            if (ed.GetSymbol () is DefaultResolvedEvent r)
-                                id = r.GetIdString ();
-                            return "c-ed";
-                        }
-                        if (n is CustomEventDeclaration ed2) {
-                            if (ed2.GetSymbol () is DefaultResolvedEvent r)
-                                id = r.GetIdString ();
-                            return "c-ed";
-                        }
-                        return "c-er";
-                    }
-                    if (m.Member.SymbolKind == SymbolKind.Constructor) {
-                        if (n is ConstructorDeclaration cd) {
-                            if (cd.GetSymbol () is DefaultResolvedEvent r)
-                                id = r.GetIdString ();
-                            return "c-cd";
-                        }
-                        return "c-cr";
-                    }
-                    if (n is PropertyDeclaration pd) {
-                        if (pd.GetSymbol () is DefaultResolvedProperty r)
-                            id = r.GetIdString ();
-                        return "c-pd";
-                    }
-                    return "c-pr";
-                }
-                var mg = n.Annotation<MethodGroupResolveResult> ();
-                if (mg != null)
-                    return "c-mr";
-                var v = n.Annotation<ILVariableResolveResult> ();
-                if (v != null) {
-                    if (v.Variable.Kind == VariableKind.Parameter)
-                        return "c-ar";
-                    return "c-uk";
-                }
-                var c = n.Annotation<ConstantResolveResult> ();
-                if (c != null) {
-                    return "c-fr";
-                }
+                throw new NotSupportedException ("Mono Cecil update");
+                //link = null;
+                //id = null;
+                //if (n == null || n == AstNode.Null)
+                //    return "c-uk";
+                //while (n != null && n.Annotations.Count() == 0)
+                //    n = n.Parent;
+                //if (n == null || n == AstNode.Null)
+                //    return "c-uk";
+                //var t = n.Annotation<TypeResolveResult> ();
+                //if (t != null) {
+                //    if (n.NodeType == NodeType.TypeDeclaration) {
+                //        return "c-td";
+                //    }
+                //    var name = t.Type.FullName;
+                //    if (t.Type.TypeParameterCount > 0 && name.IndexOf('`') < 0)
+                //        name += "`" + t.Type.TypeParameterCount;
+                //    if (t.Type.Kind != TypeKind.TypeParameter) {
+                //        link = framework.FindTypeUrl (name);
+                //    }
+                //    return "c-tr";
+                //}
+                //var u = n.Annotation<UsingScope> ();
+                //if (u != null)
+                //    return "c-nr";
+                //var m = n.Annotation<MemberResolveResult> ();
+                //if (m != null) {
+                //    if (m.Member.SymbolKind == SymbolKind.Method) {
+                //        if (n is MethodDeclaration md) {
+                //            if (md.GetSymbol () is DefaultResolvedMethod r)
+                //                id = r.GetIdString ();
+                //            return "c-md";
+                //        }
+                //        return "c-mr";
+                //    }
+                //    if (m.Member.SymbolKind == SymbolKind.Field) {
+                //        if (n is FieldDeclaration fd) {
+                //            if (fd.GetSymbol () is DefaultResolvedField r)
+                //                id = r.GetIdString ();
+                //            return "c-fd";
+                //        }
+                //        return "c-fr";
+                //    }
+                //    if (m.Member.SymbolKind == SymbolKind.Event) {
+                //        if (n is EventDeclaration ed) {
+                //            if (ed.GetSymbol () is DefaultResolvedEvent r)
+                //                id = r.GetIdString ();
+                //            return "c-ed";
+                //        }
+                //        if (n is CustomEventDeclaration ed2) {
+                //            if (ed2.GetSymbol () is DefaultResolvedEvent r)
+                //                id = r.GetIdString ();
+                //            return "c-ed";
+                //        }
+                //        return "c-er";
+                //    }
+                //    if (m.Member.SymbolKind == SymbolKind.Constructor) {
+                //        if (n is ConstructorDeclaration cd) {
+                //            if (cd.GetSymbol () is DefaultResolvedEvent r)
+                //                id = r.GetIdString ();
+                //            return "c-cd";
+                //        }
+                //        return "c-cr";
+                //    }
+                //    if (n is PropertyDeclaration pd) {
+                //        if (pd.GetSymbol () is DefaultResolvedProperty r)
+                //            id = r.GetIdString ();
+                //        return "c-pd";
+                //    }
+                //    return "c-pr";
+                //}
+                //var mg = n.Annotation<MethodGroupResolveResult> ();
+                //if (mg != null)
+                //    return "c-mr";
+                //var v = n.Annotation<ILVariableResolveResult> ();
+                //if (v != null) {
+                //    if (v.Variable.Kind == VariableKind.Parameter)
+                //        return "c-ar";
+                //    return "c-uk";
+                //}
+                //var c = n.Annotation<ConstantResolveResult> ();
+                //if (c != null) {
+                //    return "c-fr";
+                //}
 
-                // Console.WriteLine(n.Annotations.FirstOrDefault());
-                return "c-uk";
+                //// Console.WriteLine(n.Annotations.FirstOrDefault());
+                //return "c-uk";
             }
             void WriteIndent()
             {

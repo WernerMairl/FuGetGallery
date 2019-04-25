@@ -4,7 +4,6 @@ using System.Linq;
 using System.IO;
 using System;
 using System.Text;
-
 namespace HiGet.Web
 {
     public static class CecilExtensions

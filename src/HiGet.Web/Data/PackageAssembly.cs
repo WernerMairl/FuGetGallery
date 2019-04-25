@@ -73,35 +73,36 @@ namespace HiGet.Web
             format.IndexerClosingBracketOnNewLine = ICSharpCode.Decompiler.CSharp.OutputVisitor.NewLinePlacement.SameLine;
             format.NewLineAferIndexerDeclarationOpenBracket = ICSharpCode.Decompiler.CSharp.OutputVisitor.NewLinePlacement.SameLine;
             format.NewLineAferIndexerOpenBracket = ICSharpCode.Decompiler.CSharp.OutputVisitor.NewLinePlacement.SameLine;
+            throw new NotSupportedException ("Mono Update");
 
-            idecompiler = new Lazy<ICSharpCode.Decompiler.CSharp.CSharpDecompiler> (() => {
-                var m = Definition?.MainModule;
-                if (m == null)
-                    return null;
-                return new ICSharpCode.Decompiler.CSharp.CSharpDecompiler (m, new ICSharpCode.Decompiler.DecompilerSettings {
-                    ShowXmlDocumentation = false,
-                    ThrowOnAssemblyResolveErrors = false,
-                    AlwaysUseBraces = false,
-                    CSharpFormattingOptions = format,
-                    ExpandMemberDefinitions = false,
-                    DecompileMemberBodies = false,
-                    UseExpressionBodyForCalculatedGetterOnlyProperties = true,
-                });
-            }, true);
-            decompiler = new Lazy<ICSharpCode.Decompiler.CSharp.CSharpDecompiler> (() => {
-                var m = Definition?.MainModule;
-                if (m == null)
-                    return null;
-                return new ICSharpCode.Decompiler.CSharp.CSharpDecompiler (m, new ICSharpCode.Decompiler.DecompilerSettings {
-                    ShowXmlDocumentation = false,
-                    ThrowOnAssemblyResolveErrors = false,
-                    AlwaysUseBraces = false,
-                    CSharpFormattingOptions = format,
-                    ExpandMemberDefinitions = true,
-                    DecompileMemberBodies = true,
-                    UseExpressionBodyForCalculatedGetterOnlyProperties = true,
-                });
-            }, true);
+            //idecompiler = new Lazy<ICSharpCode.Decompiler.CSharp.CSharpDecompiler> (() => {
+            //    var m = Definition?.MainModule;
+            //    if (m == null)
+            //        return null;
+            //    return new ICSharpCode.Decompiler.CSharp.CSharpDecompiler (m, new ICSharpCode.Decompiler.DecompilerSettings {
+            //        ShowXmlDocumentation = false,
+            //        ThrowOnAssemblyResolveErrors = false,
+            //        AlwaysUseBraces = false,
+            //        CSharpFormattingOptions = format,
+            //        ExpandMemberDefinitions = false,
+            //        DecompileMemberBodies = false,
+            //        UseExpressionBodyForCalculatedGetterOnlyProperties = true,
+            //    });
+            //}, true);
+            //decompiler = new Lazy<ICSharpCode.Decompiler.CSharp.CSharpDecompiler> (() => {
+            //    var m = Definition?.MainModule;
+            //    if (m == null)
+            //        return null;
+            //    return new ICSharpCode.Decompiler.CSharp.CSharpDecompiler (m, new ICSharpCode.Decompiler.DecompilerSettings {
+            //        ShowXmlDocumentation = false,
+            //        ThrowOnAssemblyResolveErrors = false,
+            //        AlwaysUseBraces = false,
+            //        CSharpFormattingOptions = format,
+            //        ExpandMemberDefinitions = true,
+            //        DecompileMemberBodies = true,
+            //        UseExpressionBodyForCalculatedGetterOnlyProperties = true,
+            //    });
+            //}, true);
         }
 
         public TypeDocumentation GetTypeDocumentation (TypeDefinition typeDefinition)
