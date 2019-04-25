@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class PackageAssembly : PackageFile
     {

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mono.Cecil;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class PackagesSearchResults
     {

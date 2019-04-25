@@ -19,7 +19,7 @@ using System.Text;
 using ICSharpCode.Decompiler.TypeSystem.Implementation;
 using ICSharpCode.Decompiler.Documentation;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class TypeDocumentation
     {

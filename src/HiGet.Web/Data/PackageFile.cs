@@ -1,6 +1,6 @@
 using System.IO.Compression;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class PackageFile
     {

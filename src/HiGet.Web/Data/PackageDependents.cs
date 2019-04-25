@@ -9,7 +9,7 @@ using System.Threading;
 using System.Diagnostics;
 using SQLite;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class PackageDependents
     {

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Memory;
 using System.Threading;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public abstract class DataCacheBase
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Diagnostics;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class License
     {

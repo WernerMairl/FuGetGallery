@@ -7,7 +7,7 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class PackageVersions
     {

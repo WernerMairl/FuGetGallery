@@ -5,7 +5,7 @@ using System.IO.Compression;
 using System.Xml.Linq;
 using Mono.Cecil;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class PackageDependency
     {

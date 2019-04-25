@@ -5,7 +5,7 @@ using System.IO;
 using System;
 using System.Text;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public static class CecilExtensions
     {

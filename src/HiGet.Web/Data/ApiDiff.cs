@@ -8,7 +8,7 @@ using Mono.Cecil;
 using System.Linq;
 using System.Net.Http;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class ApiDiff
     {

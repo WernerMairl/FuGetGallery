@@ -2,7 +2,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FuGetGallery.Controllers
+namespace HiGet.Web.Controllers
 {
     [Route("api")]
     public class ApiController : Controller

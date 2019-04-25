@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NGraphics;
 
-namespace FuGetGallery.Controllers
+namespace HiGet.Web.Controllers
 {
     public class BadgeController : Controller
     {

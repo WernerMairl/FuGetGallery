@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     static class UrlExtensions
     {

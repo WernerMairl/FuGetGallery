@@ -12,7 +12,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using NuGet.Versioning;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class PackageData
     {

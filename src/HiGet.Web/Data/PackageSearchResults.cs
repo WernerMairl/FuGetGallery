@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Mono.Cecil;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class PackageSearchResults
     {

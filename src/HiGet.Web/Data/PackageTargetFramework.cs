@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using ICSharpCode.Decompiler.TypeSystem;
 
-namespace FuGetGallery
+namespace HiGet.Web
 {
     public class PackageTargetFramework
     {
