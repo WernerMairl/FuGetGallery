@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using HiGet.Web.Configuration.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -11,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace HiGet.Web
 {
+
+
     public class Startup
     {
         public IConfiguration Configuration { get; }
@@ -23,6 +21,8 @@ namespace HiGet.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppSettings> (Configuration);
+
             new Database ().MigrateAsync ().Wait ();
             services.AddScoped<Database, Database> ();
             services.AddMvc().AddRazorPagesOptions(options =>

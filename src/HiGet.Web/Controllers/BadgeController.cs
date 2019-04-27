@@ -32,7 +32,7 @@ namespace HiGet.Web.Controllers
 
         string DrawBadge (PackageData package)
         {
-            var k = "fuget";
+            var k = "higet";
             var v = "v" + package.Version.VersionString;
             
             var font = new Font ("DejaVu Sans,Verdana,Geneva,sans-serif", 11);

@@ -127,7 +127,7 @@ namespace HiGet.Web
             }
         }
 
-        void SearchType (TypeDefinition d, string query, PackageSearchResults r)
+        private void SearchType (TypeDefinition d, string query, PackageSearchResults r)
         {
             if (d.Name == "<PrivateImplementationDetails>")
                 return;
@@ -145,7 +145,7 @@ namespace HiGet.Web
                 SearchField (d, x, query, r);
         }
 
-        void SearchMethod (TypeDefinition t, MethodDefinition d, string query, PackageSearchResults r)
+        private void SearchMethod (TypeDefinition t, MethodDefinition d, string query, PackageSearchResults r)
         {
             var name = d.Name;
             var nd = name.LastIndexOf('.');
@@ -160,7 +160,7 @@ namespace HiGet.Web
                 r.Add (framework, this, t, name, d.DeclaringType.Name, "method", d.Name, d.IsPublic, ds);
         }
 
-        void SearchProperty (TypeDefinition t, PropertyDefinition d, string query, PackageSearchResults r)
+        private void SearchProperty (TypeDefinition t, PropertyDefinition d, string query, PackageSearchResults r)
         {
             var name = d.Name;
             var nd = name.LastIndexOf('.');
@@ -172,7 +172,7 @@ namespace HiGet.Web
                 r.Add (framework, this, t, name, d.DeclaringType.Name, "property", d.Name, d.GetMethod != null && d.GetMethod.IsPublic, ds);
         }
 
-        void SearchField (TypeDefinition t, FieldDefinition d, string query, PackageSearchResults r)
+        private void SearchField (TypeDefinition t, FieldDefinition d, string query, PackageSearchResults r)
         {
             if (d.Name.IndexOf ("k__BackingField", StringComparison.InvariantCulture) >= 0)
                 return;
@@ -182,7 +182,7 @@ namespace HiGet.Web
                 r.Add (framework, this, t, d.Name, d.DeclaringType.Name, "field", d.Name, d.IsPublic, ds);
         }
 
-        void SearchEvent (TypeDefinition t, EventDefinition d, string query, PackageSearchResults r)
+        private void SearchEvent (TypeDefinition t, EventDefinition d, string query, PackageSearchResults r)
         {
             var name = d.Name;
             var nd = name.LastIndexOf('.');
@@ -194,7 +194,7 @@ namespace HiGet.Web
                 r.Add (framework, this, t, name, d.DeclaringType.Name, "event", d.Name, d.AddMethod != null && d.AddMethod.IsPublic, ds);
         }
 
-        int NameScore (string name, string query)
+        private int NameScore (string name, string query)
         {
             var s = 0;
             var ni = 0;

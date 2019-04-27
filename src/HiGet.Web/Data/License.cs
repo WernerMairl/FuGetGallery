@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -249,7 +249,7 @@ namespace HiGet.Web
 
         void LoadTemplate ()
         {
-            using (var s = GetType ().Assembly.GetManifestResourceStream ($"FuGetGallery.Resources.Licenses.{TemplateName}.txt")) {
+            using (var s = GetType ().Assembly.GetManifestResourceStream ($"HiGet.Web.Resources.Licenses.{TemplateName}.txt")) {
                 if (s == null) {
                     throw new Exception ("Missing license " + TemplateName);
                 }

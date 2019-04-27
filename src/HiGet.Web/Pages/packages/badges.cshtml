@@ -1,23 +1,29 @@
 @page
 @using System.Net.Http
+@using Microsoft.Extensions.Options;
+@using HiGet.Web.Configuration.Settings;
+@using HiGet.Web;
+@inject IOptions<AppSettings> Settings
+
 @inject IHttpClientFactory HttpClientFactory
 
 @{
     var httpClient = HttpClientFactory.CreateClient();
-    var package = await PackageData.GetAsync (RouteData.Values["id"], RouteData.Values["version"], httpClient);
+    var package = await PackageData.GetAsync(RouteData.Values["id"], RouteData.Values["version"], httpClient);
     var authors = package.AuthorsOrOwners;
 
-    var dependents = (await PackageDependents.GetAsync (RouteData.Values["id"], httpClient, HttpContext.RequestAborted)).DependentIds;
+    var dependents = (await PackageDependents.GetAsync(RouteData.Values["id"], httpClient, HttpContext.RequestAborted)).DependentIds;
     dependents.Sort();
 
     var title = package.Id + " Dependents";
     var description = dependents.Count + " packages directly use " + package.Id;
 
     var badges = new[] { "simple", "complex", "boring" };
-
-    var urlroot = "https://www.fuget.org";
+    
+    string urlroot = this.Settings.Value.GetRootUrl(this.Request.GetRootUrl());
 
     ViewData["Title"] = title;
+    ViewData["ApplicationTitle"] = Settings.Value.Title;
 
     ViewData["meta"] = new Dictionary<string, string> {
         { "twitter:card", "summary" },
@@ -36,13 +42,13 @@
     </a>
 </div>
 
-<p>Badges are SVG files that you can add to your README.md or anywhere else you want to link to fuget.org.</p>
+<p>Badges are SVG files that you can add to your README.md or anywhere else you want to link to higet.org.</p>
 
 <h3>URL</h3>
 <pre><code>@urlroot/packages/@package.Id/badge.svg</code></pre>
 
 <h3>Markdown</h3>
-<pre><code>[![@package.Id on fuget.org](@urlroot/packages/@Uri.EscapeDataString(package.Id)/badge.svg)](@urlroot/packages/@Uri.EscapeDataString(package.Id))</code></pre>
+<pre><code>[![@package.Id on higet.org](@urlroot/packages/@Uri.EscapeDataString(package.Id)/badge.svg)](@urlroot/packages/@Uri.EscapeDataString(package.Id))</code></pre>
 
 <h3>Query Parameters</h3>
 <dl>

@@ -46,6 +46,7 @@
     <Compile Remove="Resources.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Configuration\Startup\" />
     <Folder Include="Resources\" />
     <Folder Include="Resources\Licenses\" />
   </ItemGroup>

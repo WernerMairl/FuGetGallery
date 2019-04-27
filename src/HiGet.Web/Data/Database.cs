@@ -25,7 +25,7 @@ namespace HiGet.Web
             if (!Directory.Exists(dbsPath)) {
                 Directory.CreateDirectory(dbsPath);
             }
-            var dbPath = Path.Combine(dbsPath, "FuGet.sqlite3");
+            var dbPath = Path.Combine(dbsPath, "HiGet.sqlite3");
             Console.WriteLine("DATABASE: {0}", dbPath);
             var cs = new SQLite.SQLiteConnectionString(
                 dbPath,

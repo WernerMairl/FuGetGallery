@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HiGet.Web.Controllers
 {
+
+    
     [Route("api")]
     public class ApiController : Controller
     {
