@@ -10,11 +10,12 @@ using Mono.Cecil;
 using System.Threading;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using NuGet.Versioning;
 
 namespace HiGet.Web
 {
-    public class PackageData
+
+
+    public partial class PackageData
     {
         public string Id { get; set; } = "";
         public string IndexId { get; set; } = "";
@@ -51,6 +52,8 @@ namespace HiGet.Web
         public bool AllowedToDecompile => SourceCodeIsPublic || (MatchedLicense != null && MatchedLicense.AllowsDecompilation);
 
         public string DownloadUrl { get; set; } = "";
+
+
         public long SizeInBytes { get; set; }
         public ZipArchive Archive { get; set; }
         public List<PackageTargetFramework> TargetFrameworks { get; set; } = new List<PackageTargetFramework> ();
@@ -111,7 +114,7 @@ namespace HiGet.Web
             return r;
         }
 
-        void Read (MemoryStream bytes, HttpClient httpClient)
+        internal void Read (MemoryStream bytes, HttpClient httpClient)
         {
             SizeInBytes = bytes.Length;
             Archive = new ZipArchive (bytes, ZipArchiveMode.Read);
@@ -239,7 +242,7 @@ namespace HiGet.Web
             new Regex ("https?://bitbucket.org/[^/]+/[^/]+", RegexOptions.Compiled | RegexOptions.IgnoreCase),
         };
 
-        async Task MatchLicenseAsync(HttpClient httpClient)
+        internal async Task MatchLicenseAsync(HttpClient httpClient)
         {
             if (!string.IsNullOrEmpty (LicenseUrl)) {
                 MatchedLicense = License.FindLicenseWithUrl (LicenseUrl);
@@ -257,7 +260,7 @@ namespace HiGet.Web
             }
         }
 
-        async Task SaveDependenciesAsync ()
+        internal async Task SaveDependenciesAsync ()
         {
             var db = new Database ();
 
@@ -348,80 +351,6 @@ namespace HiGet.Web
                 r = "portable-" + i;
             }
             return r;
-        }
-
-        class PackageDataCache : DataCache<string, PackageVersion, PackageData>
-        {
-            public PackageDataCache() : base(TimeSpan.FromDays(365))
-            {
-
-            }
-
-            public static string GetPackageDownloadUrl (string id, PackageVersion version)
-            {
-                string defaultTemplate = "https://www.nuget.org/api/v2/package/{0}/{1}";
-                string customTemplate = string.Empty;
-                string BaGetHostUrl = Environment.GetEnvironmentVariable ("BaGetHost");
-                if (string.IsNullOrEmpty (BaGetHostUrl) == false) 
-                {
-                    if (BaGetHostUrl.EndsWith ('/') == false) 
-                    {
-                        BaGetHostUrl += '/';
-                    }
-                    customTemplate = BaGetHostUrl + "v3/package/{0}/{1}/{2}.nupkg";
-                }
-
-                string usedTemplate = defaultTemplate;
-
-                if (string.IsNullOrEmpty (customTemplate) == false) 
-                {
-                    usedTemplate = customTemplate;
-                }
-
-                var nugetVersion = new NuGetVersion (version.VersionString);
-                var idVersion = $"{id}.{nugetVersion.ToNormalizedString().ToLowerInvariant ()}";
-
-                string id_escaped = Uri.EscapeDataString (id.ToLowerInvariant());
-                string versionString_escaped = Uri.EscapeDataString (version.VersionString);
-                string idversion_escaped = Uri.EscapeDataString (idVersion);
-
-                string finalUrl = string.Format (usedTemplate, id_escaped, versionString_escaped, idversion_escaped);
-                return finalUrl;
-            }
-
-
-            protected override async Task<PackageData> GetValueAsync(string arg0, PackageVersion arg1, HttpClient httpClient, CancellationToken token)
-            {
-                var id = arg0;
-                var version = arg1;
-                var package = new PackageData {
-                    Id = id,
-                    IndexId = id,
-                    Version = version,
-                    SizeInBytes = 0,
-                    DownloadUrl = GetPackageDownloadUrl (id, arg1)
-                };
-                try {
-                    //System.Console.WriteLine($"DOWNLOADING {package.DownloadUrl}");
-                    var r = await httpClient.GetAsync (package.DownloadUrl, token).ConfigureAwait (false);
-                    var data = new MemoryStream ();
-                    using (var s = await r.Content.ReadAsStreamAsync().ConfigureAwait(false)) {
-                        await s.CopyToAsync (data, 16*1024, token).ConfigureAwait(false);
-                    }
-                    data.Position = 0;
-                    await Task.Run (() => package.Read (data, httpClient), token).ConfigureAwait (false);
-                    await package.MatchLicenseAsync (httpClient).ConfigureAwait (false);
-                    await package.SaveDependenciesAsync ();
-                }
-                catch (OperationCanceledException) {
-                    throw;
-                }
-                catch (Exception ex) {
-                    package.Error = ex;
-                }
-
-                return package;
-            }
         }
     }
 }

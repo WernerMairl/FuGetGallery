@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Memory;
 using System.Threading;
+using HiGet.Web.Configuration.Settings;
 
 namespace HiGet.Web
 {
@@ -73,12 +74,21 @@ namespace HiGet.Web
 
     public abstract class DataCache<TArg0, TArg1, TResult> : DataCacheBase
     {
-        readonly TimeSpan expireAfter;
-
-        public DataCache (TimeSpan expireAfter)
+        /// <summary>
+        /// Time To Live (=Expire after)
+        /// </summary>
+        //property TimeSpan TTL = TimeSpan.MaxValue;
+        public TimeSpan Ttl { get; protected set; } = TimeSpan.FromDays(7);
+        public DataCache ()
         {
-            this.expireAfter = expireAfter;
+            
         }
+
+        public DataCache(TimeSpan ttl)
+        {
+            this.Ttl = Ttl;
+        }
+
 
         public Task<TResult> GetAsync (TArg0 arg0, TArg1 arg1, HttpClient client) => GetAsync (arg0, arg1, client, CancellationToken.None);
 
@@ -91,7 +101,7 @@ namespace HiGet.Web
 
             return GetValueAsync (arg0, arg1, client, token).ContinueWith (t => {
                 var rt = t.Result;
-                cache.Set (key, rt, expireAfter);
+                cache.Set (key, rt, Ttl);
                 return rt;
             });
         }

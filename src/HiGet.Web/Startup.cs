@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace HiGet.Web
 {
@@ -46,7 +47,7 @@ namespace HiGet.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseResponseCompression();
-
+            Tools.ConfigureNuGetHostUrl(app.ApplicationServices.GetRequiredService<IOptions<AppSettings>>().Value);
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
@@ -56,6 +57,7 @@ namespace HiGet.Web
 
             app.UseStaticFiles();
             app.UseMvc();
+            
         }
     }
 }
