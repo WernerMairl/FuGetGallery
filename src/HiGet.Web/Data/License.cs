@@ -13,7 +13,7 @@ namespace HiGet.Web
         public List<string> KeyStrings { get; set; } = new List<string> ();
         public HashSet<string> KnownUrls { get; set; } = new HashSet<string> ();
 
-        string templateName = "";
+        private string templateName = "";
         public string TemplateName {
             get => templateName;
             set { templateName = value; LoadTemplate (); }
@@ -24,7 +24,7 @@ namespace HiGet.Web
 
         public override string ToString () => Name;
 
-        readonly static List<License> known = new List<License> ();
+        private readonly static List<License> known = new List<License> ();
 
         static License ()
         {

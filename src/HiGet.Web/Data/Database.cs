@@ -1,12 +1,6 @@
 using System;
 using System.IO;
-using System.IO.Compression;
 using System.Threading.Tasks;
-using System.Linq;
-using Mono.Cecil;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
-using System.Diagnostics;
 using SQLite;
 
 namespace HiGet.Web
